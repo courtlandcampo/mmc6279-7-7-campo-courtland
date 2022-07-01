@@ -1,4 +1,4 @@
-var questionsArray = [
+var questionsArr = [
     {
         question: "Who is considered 'The People's Princess'?",
         answer: 'Princess Diana',
@@ -29,3 +29,10 @@ var questionsArray = [
         options: ["London", "Rome", "New York City", "Paris"]
     }
 ]
+
+var quizEl = document.querySelector('#quiz')
+
+var startBtn = document.createElement("button")
+startBtn.setAttribute('id','start-quiz')
+startBtn.innerHTML = "Start Quiz"
+quizEl.appendChild(startBtn)
