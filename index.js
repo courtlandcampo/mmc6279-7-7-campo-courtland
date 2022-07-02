@@ -59,6 +59,8 @@ var questionsArr = [
 
 //START BUTTON
 var quizEl = document.querySelector('#quiz')
+var choices = document.getElementById("quiz").querySelectorAll("div button")
+
 
 
 var startBtn = document.createElement("button")
@@ -77,43 +79,10 @@ var q = 0
 //USER SCORE
 numberCorrect = 0
 
-//TIMER
-
-
-startBtn.onclick = function () {
-
+startBtn.onclick = function() {
     quizEl.removeChild(startBtn) //REMOVE THE START BUTTON AFTER GAME BEGINS
-    
-    //LOAD QUESTION
-    questionEl.textContent = questionsArr[q].question 
-    quizEl.appendChild(questionEl)
-
-    //LOAD ANSWERS
-    for (let i = 0; i < questionsArr[q].options.length; i++) {
-        var optionsBtn = document.createElement("button")
-
-        optionsBtn.textContent = questionsArr[q].options[i]
-
-        optionsDiv.appendChild(optionsBtn)
-    }
-    quizEl.appendChild(optionsDiv)
-
-    //LOAD TIMER
-    var timerEl = document.createElement("p")
-    timerEl.textContent = 5
-    quizEl.appendChild(timerEl)
-    
-
-    //COUNTDOWN
-    var intervalId = setInterval(function(){
-        timerEl.textContent = Number(timerEl.textContent) - 1
-        if (timerEl.textContent === '0') {
-            clearInterval(intervalId)
-            newQuestion()
-            q++
-        }
-    }, 1000)
-
+    newQuestion() //BRINGS IN NEW QUESTIONS
+    q++ //QUESTION TRACKER, IDK WHY IT WORKS, BUT IT DOES
 }
 
 
@@ -132,12 +101,14 @@ startBtn.onclick = function () {
     }
 }) */
 
- function newQuestion() {  
+function newQuestion() {  
     quizEl.innerHTML = ""
     
-    questionEl.textContent = questionsArr[q].question
+    //LOAD QUESTION
+    questionEl.textContent = questionsArr[q].question 
     quizEl.appendChild(questionEl)
 
+    //LOAD ANSWERS
     for (let i = 0; i < questionsArr[q].options.length; i++) {
         var optionsBtn = document.createElement("button")
 
@@ -145,5 +116,21 @@ startBtn.onclick = function () {
 
         optionsDiv.appendChild(optionsBtn)
     }
-    quizEl.appendChild(optionsDiv) 
-} 
+    quizEl.appendChild(optionsDiv)
+
+    //LOAD TIMER
+    var timerEl = document.createElement("p")
+    timerEl.textContent = 3
+    quizEl.appendChild(timerEl)
+    
+
+    //COUNTDOWN
+    var intervalId = setInterval(function(){
+        timerEl.textContent = Number(timerEl.textContent) - 1
+        if (timerEl.textContent === '0') {
+            clearInterval(intervalId)
+            newQuestion()
+            q++
+        }
+    }, 1000)
+}
