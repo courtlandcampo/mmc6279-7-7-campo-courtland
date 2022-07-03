@@ -60,7 +60,7 @@ var questionsArr = [
 //START BUTTON
 var quizEl = document.querySelector('#quiz')
 var choices = document.getElementById("quiz").querySelectorAll("div button")
-
+var intervalId
 
 
 var startBtn = document.createElement("button")
@@ -85,24 +85,9 @@ startBtn.onclick = function() {
     q++ //QUESTION TRACKER, IDK WHY IT WORKS, BUT IT DOES
 }
 
-
-/*quizEl.addEventListener('click', function(e){
-
-    console.log(questionsArr[q].answer)
-    if (e.target.innerHTML === questionsArr[q].answer){
-        console.log('woo')
-        numberCorrect++
-        newQuestion()
-        q++
-    } else {
-        console.log('nope')
-        newQuestion()
-        q++
-    }
-}) */
-
 function newQuestion() {  
     quizEl.innerHTML = ""
+    optionsDiv.innerHTML = ""
     
     //LOAD QUESTION
     questionEl.textContent = questionsArr[q].question 
@@ -120,17 +105,30 @@ function newQuestion() {
 
     //LOAD TIMER
     var timerEl = document.createElement("p")
-    timerEl.textContent = 3
+    timerEl.textContent = 30
     quizEl.appendChild(timerEl)
     
 
     //COUNTDOWN
     var intervalId = setInterval(function(){
         timerEl.textContent = Number(timerEl.textContent) - 1
-        if (timerEl.textContent === '0') {
+        if (timerEl.textContent === '-1') {
             clearInterval(intervalId)
             newQuestion()
-            q++
+            q++    
         }
     }, 1000)
 }
+
+optionsDiv.addEventListener('click', function(e){
+    if (e.target.innerHTML === questionsArr[q].answer){
+        clearInterval(intervalId)
+        numberCorrect++
+        newQuestion()
+        q++
+    } else {
+        clearInterval(intervalId)
+        newQuestion()
+        q++
+    }
+})
