@@ -89,22 +89,17 @@ function startSetUp( ){
     startBtn.onclick = function() {
         quizEl.removeChild(startBtn) //REMOVE THE START BUTTON AFTER GAME BEGINS
         newQuestion() //BRINGS IN NEW QUESTIONS
-        q++ //QUESTION TRACKER, IDK WHY IT WORKS, BUT IT DOES
+    }
+
+   var previousScore = localStorage.getItem('previous-score')
+    if (previousScore) {
+        var prevoiusScoreEl = document.createElement("p")
+        quizEl.appendChild(prevoiusScoreEl)
     }
 }
 startSetUp()
 
-function startWithScore() {
-    var previousScore = localStorage.getItem('previous-score')
-    if (previousScore) {
-        var prevoiusScoreEl = document.createElement("p")
-        
-        quizEl.appendChild(prevoiusScoreEl)
-    } else {
-        startSetUp()
-    }
-}
-startWithScore()
+/**/
 
 function newQuestion() {  
     quizEl.innerHTML = ""
@@ -125,9 +120,8 @@ function newQuestion() {
         optionsBtn.addEventListener('click', function(e){
             if (e.target.innerHTML === questionsArr[q].answer){
                 numberCorrect++
-            } else {
+            } 
                 endOfRound()
-            }
         })
     }
     quizEl.appendChild(optionsDiv)
@@ -141,31 +135,22 @@ function newQuestion() {
     //COUNTDOWN
     var intervalId = setInterval(function(){
         timerEl.textContent = Number(timerEl.textContent) - 1
-        if (timerEl.textContent === -1) {
+        if (timerEl.textContent === '0') {
             endOfRound()
         }
     }, 1000)
-}
 
-optionsDiv.addEventListener('click', function(e){
-    if (e.target.textContent === questionsArr[q].answer){
-        numberCorrect++
-        endOfRound()
+    function endOfRound(){
+        clearInterval(intervalId)
         q++
-    } else {
-        endOfRound()
-    }
-
-})
-
-function endOfRound(){
-    clearInterval(intervalId)
-    q++
-    if (q === questionsArr.length){
-        gradeQuiz()
-    } else {
-        newQuestion()
+        if (q === questionsArr.length){
+            gradeQuiz()
+        } else {
+            newQuestion()
+        }
     }
 }
+
+
 
 
